@@ -16,6 +16,8 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Project
         run: yarn build
       - name: Run Tests
