@@ -19,5 +19,7 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Build Project
+        run: yarn build
       - name: Run Tests
         run: yarn test
