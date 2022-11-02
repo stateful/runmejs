@@ -47,5 +47,6 @@ jobs:
       - name: Release
         run: npm run release -- ${{github.event.inputs.releaseType}} ${{github.event.inputs.additionalFlags}}
         env:
+          NODE_DEBUG: release-it:*
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
