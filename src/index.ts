@@ -15,7 +15,7 @@ async function initWasm () {
   /**
    * check if already initiated
    */
-  if (typeof globalThis['GetDocument'] === 'function') {
+  if (typeof globalThis.GetDocument === 'function') {
     return
   }
 
@@ -29,7 +29,14 @@ async function initWasm () {
    */
   const initPromise = process.on && new Promise((resolve) => process.on('exit', resolve))
   go.run(wasm.instance)
-  await initPromise
+
+  /**
+   * in some sitations `globalThis.GetDocument` is undefined and we need to wait for
+   * the deadlock to happen
+   */
+  if (typeof globalThis.GetDocument === 'undefined') {
+    await initPromise
+  }
 }
 
 export default async function parse (content: string) {
