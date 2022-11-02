@@ -5,8 +5,7 @@ export async function loadWasm () {
   }
 
   if (typeof window !== 'undefined' && 'Deno' in window) {
-    // @ts-expect-error
-    const runtime = await import('./deno.ts')
+    const runtime = await import('./deno.js')
     return runtime.loadWasm()
   }
 

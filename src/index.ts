@@ -1,4 +1,4 @@
-import { loadWasm } from './runtime/index'
+import { loadWasm } from './runtime/index.js'
 import type { ParsedDocument } from './types'
 
 import './wasm/wasm_exec.js'
@@ -38,8 +38,3 @@ export default async function parse (content: string) {
   const { document } = await globalThis.GetDocument(content)
   return document
 }
-
-console.log(await parse('## Hello World\n'))
-console.log(await parse('## Hello World\n'))
-console.log(await parse('## Hello World\n'))
-console.log(await parse('## Hello World\n'))
