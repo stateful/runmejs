@@ -1,0 +1,11 @@
+src
+tests
+!wasm
+.github
+.nvmrc
+coverage
+*.tgz
+*.log
+*.ts
+*.json
+.editorconfig
