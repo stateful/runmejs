@@ -44,6 +44,12 @@ jobs:
         run: |
           git config --global user.name "stateful-wombot"
           git config --global user.email "christian+github-bot@stateful.com"
+      - name: Setup NPM
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          npm whoami
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Release
         run: npm run release -- ${{github.event.inputs.releaseType}} ${{github.event.inputs.additionalFlags}}
         env:
