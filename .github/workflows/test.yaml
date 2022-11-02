@@ -5,16 +5,13 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
     steps:
       - name: Clone Repository
         uses: actions/checkout@v2
       - name: Setup Node version
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
       - name: Setup Deno
         uses: denoland/setup-deno@v1
       - name: Install dependencies

@@ -22,6 +22,7 @@
     "clean": "rimraf dist",
     "compile": "tsc -p ./tsconfig.json",
     "download:wasm": "node .github/scripts/downloadWasm.js",
+    "postinstall": "npm run download:wasm",
     "test": "run-s test:*",
     "test:nodejs": "vitest --config ./vitest.config.ts",
     "test:deno": "deno test --no-check --allow-env --allow-read --allow-net --allow-write tests/deno/**",
