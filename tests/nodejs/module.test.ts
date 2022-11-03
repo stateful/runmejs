@@ -1,4 +1,4 @@
-import { test, afterAll, expect } from 'vitest'
+import { test, expect } from 'vitest'
 
 import parse from '../../src/index.js'
 

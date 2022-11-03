@@ -15,12 +15,20 @@ import { SUPPORTE_PLATFORMS, RUNME_VERSION } from './constants.js'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const streamPipeline = promisify(pipeline)
 
+/**
+ * run Runme CLI
+ * @returns instance of spawned child process instance
+ */
 export async function runme () {
   const binaryPath = await download()
   const command = `${binaryPath} ${process.argv.slice(2).join(' ')}`
   return cp.spawn(command, { stdio: 'inherit', shell: true, env: process.env })
 }
 
+/**
+ * download runme binary from GitHub
+ * @returns file path to downloaded binary
+ */
 export async function download () {
   const targetDir = path.resolve(__dirname, 'bin')
   const binaryFilePath = path.resolve(targetDir, 'runme')
@@ -31,8 +39,12 @@ export async function download () {
   }
 
   const platform = getPlatformMetadata()
+  if (!platform) {
+    return
+  }
+
   const [version, type, target, ext] = [RUNME_VERSION, platform.TYPE.toLocaleLowerCase(), platform.TARGET, platform.EXTENSION]
-  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}`
+  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}${os.type().includes('Windows') ?? '.exe'}`
   const res = await fetch(url)
 
   if (!res.body) {
@@ -44,6 +56,10 @@ export async function download () {
   return binaryFilePath
 }
 
+/**
+ * Determine current running platform and determine if it is supported
+ * @returns platform information if supported, undefined otherwise
+ */
 const getPlatformMetadata = () => {
   const type = os.type()
   const architecture = os.arch()
@@ -62,5 +78,4 @@ const getPlatformMetadata = () => {
     `by "runme".\nYour system must be one of the following:\n`
   )
   console.table(SUPPORTE_PLATFORMS)
-  process.exit(1)
 }
