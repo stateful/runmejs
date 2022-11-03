@@ -47,8 +47,6 @@ export async function download () {
 const getPlatformMetadata = () => {
   const type = os.type()
   const architecture = os.arch()
-  console.log(type, architecture);
-
 
   for (let supportedPlatform of SUPPORTE_PLATFORMS) {
     if (
