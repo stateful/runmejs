@@ -23,7 +23,7 @@
     "clean": "rimraf dist",
     "compile": "tsc -p ./tsconfig.json",
     "download:wasm": "node .github/scripts/downloadWasm.js",
-    "postinstall": "npm run download:wasm",
+    "prepare": "npm run download:wasm",
     "release": "release-it --github.release --ci --npm.skipChecks --no-git.requireCleanWorkingDir",
     "test": "run-s test:*",
     "test:nodejs": "vitest --config ./vitest.config.ts",
