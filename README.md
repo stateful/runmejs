@@ -1,4 +1,4 @@
-# Runme.js
+# Runme.js [![Test Changes](https://github.com/stateful/runmejs/actions/workflows/test.yaml/badge.svg)](https://github.com/stateful/runmejs/actions/workflows/test.yaml) [![npm version](https://badge.fury.io/js/runme@2x.png)](https://badge.fury.io/js/runme) [![deno module](https://shield.deno.dev/x/runme)](https://deno.land/x/runme)
 
 > A JavaScript module to use Runme in Node.js, Deno or browser environments.
 
