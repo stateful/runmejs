@@ -18,6 +18,13 @@ $ npm install runme
 $ yarn add runme
 ```
 
+You can also install the package globally and it as a CLI, e.g.:
+
+```sh
+npm i -g runme
+runme list
+```
+
 ### Deno
 
 You can import the module directly through e.g. esm.sh:
