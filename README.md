@@ -27,11 +27,7 @@ runme list
 
 ### Deno
 
-You can import the module directly through e.g. esm.sh:
-
-```ts
-import { parse } from 'https://esm.sh/runme@0.1.0'
-```
+You can import the module directly from the Deno module hosting service via `https://deno.land/x/runme@0.2.3/mod.ts`.
 
 ## Usage
 
@@ -43,6 +39,8 @@ Parse markdown into AST:
 
 ```ts
 import { parse } from 'runme'
+// or when using Deno:
+// import { parse } from 'https://deno.land/x/runme@0.2.3/mod.ts'
 
 console.log(await parse('## Hello World\n'))
 /**

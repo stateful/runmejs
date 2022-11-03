@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "./src/runtime/node.js": "./src/runtime/deno.ts"
+  }
+}
