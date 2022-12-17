@@ -5,9 +5,10 @@
   "license": "Apache-2.0",
   "description": "A JavaScript module to use Runme in Node.js, Deno or browser environments",
   "homepage": "https://github.com/stateful/runmejs#readme",
-  "exports": "./dist/index.js",
   "bin": "./bin/runme.js",
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stateful/runmejs.git"

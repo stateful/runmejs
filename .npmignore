@@ -6,7 +6,8 @@ tests
 coverage
 *.tgz
 *.log
-*.ts
+/*.ts
+src
 *.json
 .editorconfig
 deno.lock
