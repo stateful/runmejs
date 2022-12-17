@@ -1,5 +1,5 @@
 import { loadWasm } from './runtime/node.js'
-import type { Serializer } from './types'
+import type { Serializer, Cell } from './types'
 
 import './wasm/wasm_exec.js'
 
@@ -39,9 +39,23 @@ async function initWasm () {
   return Runme
 }
 
-export async function parse (content: string) {
+/**
+ * Deserializes the file context of a markdown document into an AST abstraction
+ * @param content  content of markdown file
+ * @returns        AST abstraction
+ */
+export async function deserialize (content: string) {
   const Runme = await initWasm()
-
   const { cells } = await Runme.deserialize(content)
   return cells
+}
+
+/**
+ * Serializes an AST abstraction of a markdown document into a string
+ * @param content  AST abstraction
+ * @returns        markdown content as string
+ */
+export async function serialize (cells: Cell[]) {
+  const Runme = await initWasm()
+  return await Runme.serialize(JSON.stringify({ cells }))
 }

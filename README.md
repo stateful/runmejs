@@ -27,22 +27,22 @@ runme list
 
 ### Deno
 
-You can import the module directly from the Deno module hosting service via `https://deno.land/x/runme@0.4.1/mod.ts`.
+You can import the module directly from the Deno module hosting service via `https://deno.land/x/runme@0.4.3/mod.ts`.
 
 ## Usage
 
 The module exposes the following methods:
 
-### `parse`
+### `deserialize`
 
-Parse markdown into AST:
+Deserialize markdown into an AST:
 
 ```ts
-import { parse } from 'runme'
+import { deserialize } from 'runme'
 // or when using Deno:
-// import { parse } from 'https://deno.land/x/runme@0.4.1/mod.ts'
+// import { deserialize } from 'https://deno.land/x/runme@0.4.3/mod.ts'
 
-console.log(await parse(
+console.log(await deserialize(
     '## Hello World\n' +
     '```sh\n' +
     'echo "Hello World"\n'
@@ -62,6 +62,39 @@ console.log(await parse(
  *     },
  *     value: 'echo "Hello World"',
  * }]
+ */
+```
+
+### `serialize`
+
+Serialize an AST into markdown:
+
+```ts
+import { serialize } from 'runme'
+// or when using Deno:
+// import { serialize } from 'https://deno.land/x/runme@0.4.3/mod.ts'
+
+console.log(await serialize([
+    {
+        kind: 1,
+        value: '# Hello World'
+    }, {
+        kind: 2
+        languageId: 'sh',
+        value: 'echo "Hello World"'
+    }
+])
+
+/**
+ * outputs:
+ * -----------------------
+ * ## Hello World
+ *
+ * ```sh
+ * echo "Hello World"
+ * ```
+ *
+ * -----------------------
  */
 ```
 

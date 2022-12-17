@@ -1,8 +1,12 @@
 import { test, expect } from 'vitest'
 
-import { parse } from '../../src/index.js'
+import { deserialize, serialize } from '../../src/index.js'
+import { AST, MARKDOWN } from '../fixtures'
 
-test('can import and use the package', async () => {
-  expect(await parse('# Hello World\n```sh\necho "Hello World"\n```'))
-    .toMatchSnapshot()
+test('deserialize', async () => {
+  expect(await deserialize(MARKDOWN)).toEqual(AST)
+})
+
+test('serialize', async () => {
+  expect(await serialize(AST)).toBe(MARKDOWN)
 })
