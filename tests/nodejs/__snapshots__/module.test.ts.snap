@@ -1,0 +1,19 @@
+// Vitest Snapshot v1
+
+exports[`can import and use the package 1`] = `
+[
+  {
+    "kind": 1,
+    "languageId": "",
+    "value": "# Hello World",
+  },
+  {
+    "kind": 2,
+    "languageId": "sh",
+    "metadata": {
+      "runme.dev/name": "echo-hello",
+    },
+    "value": "echo \\"Hello World\\"",
+  },
+]
+`;

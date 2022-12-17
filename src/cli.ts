@@ -44,7 +44,7 @@ export async function download () {
   }
 
   const [version, type, target, ext] = [RUNME_VERSION, platform.TYPE.toLocaleLowerCase(), platform.TARGET, platform.EXTENSION]
-  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}${os.type().includes('Windows') ?? '.exe'}`
+  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}${os.type().includes('Windows') ? '.exe' : ''}`
   const res = await fetch(url)
 
   if (!res.body) {

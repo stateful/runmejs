@@ -1,12 +1,9 @@
 import { loadWasm } from './runtime/node.js'
-import type { ParsedDocument } from './types'
+import type { Serializer } from './types'
 
 import './wasm/wasm_exec.js'
 
-declare global {
-  var Go: new () => any
-  var GetDocument: (md: string) => ParsedDocument
-}
+declare var globalThis: any
 
 const go = new globalThis.Go()
 let wasm: WebAssembly.WebAssemblyInstantiatedSource
@@ -15,8 +12,8 @@ async function initWasm () {
   /**
    * check if already initiated
    */
-  if (typeof globalThis.GetDocument === 'function') {
-    return
+  if (globalThis.Runme) {
+    return globalThis.Runme as Serializer['Runme']
   }
 
   const wasmBuffer = await loadWasm()
@@ -34,14 +31,17 @@ async function initWasm () {
    * in some sitations `globalThis.GetDocument` is undefined and we need to wait for
    * the deadlock to happen
    */
-  if (typeof globalThis.GetDocument === 'undefined') {
+  if (typeof globalThis.Runme === 'undefined') {
     await initPromise
   }
+
+  const { Runme } = globalThis as Serializer
+  return Runme
 }
 
 export async function parse (content: string) {
-  await initWasm()
+  const Runme = await initWasm()
 
-  const { document } = await globalThis.GetDocument(content)
-  return document
+  const { cells } = await Runme.deserialize(content)
+  return cells
 }

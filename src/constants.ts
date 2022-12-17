@@ -1,4 +1,4 @@
-export const RUNME_VERSION = '0.2.4'
+export const RUNME_VERSION = '0.4.0'
 export const SUPPORTE_PLATFORMS = [
   {
     TYPE: 'Windows_NT',
