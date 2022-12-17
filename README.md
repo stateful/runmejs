@@ -27,7 +27,7 @@ runme list
 
 ### Deno
 
-You can import the module directly from the Deno module hosting service via `https://deno.land/x/runme@0.2.3/mod.ts`.
+You can import the module directly from the Deno module hosting service via `https://deno.land/x/runme@0.4.1/mod.ts`.
 
 ## Usage
 
@@ -40,15 +40,32 @@ Parse markdown into AST:
 ```ts
 import { parse } from 'runme'
 // or when using Deno:
-// import { parse } from 'https://deno.land/x/runme@0.2.3/mod.ts'
+// import { parse } from 'https://deno.land/x/runme@0.4.1/mod.ts'
 
-console.log(await parse('## Hello World\n'))
+console.log(await parse(
+    '## Hello World\n' +
+    '```sh\n' +
+    'echo "Hello World"\n'
+    '```'
+))
 /**
  * outputs:
- * [{ markdown: '## Hello World' }]
+ * [{
+ *     kind: 1,
+ *     languageId: "",
+ *     value: "# Hello World",
+ * }, {
+ *     kind: 2,
+ *     languageId: "sh",
+ *     metadata: {
+ *       "runme.dev/name": "echo-hello",
+ *     },
+ *     value: 'echo "Hello World"',
+ * }]
  */
 ```
 
 ---
 
 <p align="center"><small>Copyright 2022 © <a href="http://stateful.com/">Stateful</a> – Apache 2.0 License</small></p>
+'# Hello World\n```sh\n```'),
