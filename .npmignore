@@ -7,7 +7,6 @@ coverage
 *.tgz
 *.log
 /*.ts
-src
 *.json
 .editorconfig
 deno.lock
