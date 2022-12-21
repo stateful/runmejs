@@ -1,5 +1,4 @@
-import { loadWasm } from './runtime/node.js'
-import type { Serializer, Cell } from './types'
+import { loadWasm, Runme } from './runtime/node.js'
 
 import './wasm/wasm_exec.js'
 
@@ -13,7 +12,7 @@ async function initWasm () {
    * check if already initiated
    */
   if (globalThis.Runme) {
-    return globalThis.Runme as Serializer['Runme']
+    return globalThis.Runme as Runme.Serializer['Runme']
   }
 
   const wasmBuffer = await loadWasm()
@@ -24,7 +23,8 @@ async function initWasm () {
   /**
    * listen on process exit to avoid deadlock
    */
-  const initPromise = process.on && new Promise((resolve) => process.on('exit', resolve))
+  const proc = globalThis.process
+  const initPromise = proc.on && new Promise((resolve) => proc.on('exit', resolve))
   go.run(wasm.instance)
 
   /**
@@ -35,7 +35,7 @@ async function initWasm () {
     await initPromise
   }
 
-  const { Runme } = globalThis as Serializer
+  const { Runme } = globalThis as Runme.Serializer
   return Runme
 }
 
@@ -55,7 +55,7 @@ export async function deserialize (content: string) {
  * @param content  AST abstraction
  * @returns        markdown content as string
  */
-export async function serialize (cells: Cell[]) {
+export async function serialize (cells: readonly Runme.Cell[]) {
   const Runme = await initWasm()
   return await Runme.serialize(JSON.stringify({ cells }))
 }

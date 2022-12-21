@@ -1,17 +1,14 @@
-// @ts-ignore
 import { assertEquals } from 'https://deno.land/std@0.161.0/testing/asserts.ts'
 
-// @ts-ignore
-import { serialize, deserialize } from '../../mod.ts'
-// @ts-ignore
+import { serialize, deserialize, Runme } from '../../mod.ts'
 import { AST, MARKDOWN } from '../fixtures.ts'
 
-// @ts-ignore
 Deno.test('deserialize', async () => {
-  assertEquals(await deserialize(MARKDOWN), AST)
+  const cells: readonly Runme.Cell[] = AST
+  assertEquals(await deserialize(MARKDOWN), cells)
 })
 
-// @ts-ignore
 Deno.test('serialize', async () => {
-  assertEquals(await serialize(AST), MARKDOWN)
+  const cells: readonly Runme.Cell[] = AST
+  assertEquals(await serialize(cells), MARKDOWN)
 })

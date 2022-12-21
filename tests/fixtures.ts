@@ -10,7 +10,7 @@ export const AST = [{
         'runme.dev/name': 'echo-hello',
     },
     value: 'echo "Hello World"',
-}]
+}] as const
 
 export const MARKDOWN = (
     '# Hello World\n' +
