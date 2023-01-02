@@ -2,7 +2,7 @@ import { ParsedCode } from '../mod.ts'
 import { getAst, getFilePath } from './common.ts'
 
 export const description = 'Print will display the details of the corresponding command block based on its name.'
-export const command = 'print [id] <filename>'
+export const command = 'print <id> [filename]'
 
 interface CommandParams {
     filename: string
@@ -10,6 +10,8 @@ interface CommandParams {
 }
 
 export const handler = async (argv: CommandParams) => {
+    console.log(argv);
+
     const filePath = getFilePath(argv.filename)
     const codeblocks = await getAst(filePath)
     const codeblock = codeblocks.find((c) => (
