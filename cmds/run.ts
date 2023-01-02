@@ -12,14 +12,13 @@ interface CommandParams {
 
 export const handler = async (argv: CommandParams) => {
     const filePath = getFilePath(argv.filename)
-    const ast = await getAst(filePath)
-    const codeblock = ast.children.find((c) => (
-        (c as ParsedCode).meta &&
-        (c as ParsedCode).meta.id === argv.id
-    )) as ParsedCode | undefined
+    const codeblocks = await getAst(filePath)
+    const codeblock = codeblocks.find((c) => (
+        c.meta.id === argv.id
+    ))
 
     if (!codeblock) {
-        const availableIds = ast.children
+        const availableIds = codeblocks
             .filter((c) => (c as ParsedCode).meta)
             .map((c) => (c as ParsedCode).meta.id)
         console.error(`Couldn't find code block id "${argv.id}" in ${filePath}, available: ${availableIds.join(', ')}`)

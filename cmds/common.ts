@@ -1,8 +1,10 @@
 import { join } from 'https://deno.land/std@0.170.0/path/mod.ts'
 import { basename } from 'https://deno.land/std@0.170.0/path/mod.ts'
-import { serialize } from '../mod.ts'
+import { ParsedCode, serialize } from '../mod.ts'
 
 export const DEFAULT_FILENAME = 'README.md'
+const SUPPORTED_LANGS = ['sh', 'shell', 'bash']
+const DEFAULT_LANG = 'sh'
 
 export function getFilePath (filePath?: string) {
     return join(Deno.cwd(), filePath || DEFAULT_FILENAME)
@@ -22,7 +24,10 @@ export async function getAst (filePath: string) {
 
         const fileContent = await Deno.readTextFile(filePath)
         const ast = await serialize(fileContent)
-        return ast
+        return ast.children.filter((c) => (
+            c.type === 'code' &&
+            SUPPORTED_LANGS.includes(c.lang || DEFAULT_LANG)
+        )) as ParsedCode[]
     } catch (err: unknown) {
         console.error(`Failed parsing ${basename(filePath)}: ${(err as Error).message}`)
         Deno.exit(1)
