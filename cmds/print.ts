@@ -1,9 +1,8 @@
 import { ParsedCode } from '../mod.ts'
 import { getAst, getFilePath } from './common.ts'
 
-export const description = 'Run a selected command identified based on its unique parsed name.'
-export const aliases = ['run', 'exec']
-export const command = 'run <id> [filename]'
+export const description = 'Print will display the details of the corresponding command block based on its name.'
+export const command = 'print [id] <filename>'
 
 interface CommandParams {
     filename: string
@@ -27,9 +26,7 @@ export const handler = async (argv: CommandParams) => {
     }
 
     /**
-     * ToDo(Christian): replace with execution id
+     * ToDo(Christian): format data and table design
      */
-    await Deno.run({
-        cmd: ['bash', '-c', codeblock.value]
-    })
+    console.log(codeblock.value)
 }
