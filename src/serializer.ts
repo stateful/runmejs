@@ -51,7 +51,7 @@ function parseMetadata (meta: Code['meta'], id: string): Metadata {
         .split(',')
         .reduce((prev: Metadata, entry: string) => {
             const [key, val] = entry.split('=') as [keyof Metadata, string]
-            // @ts-expect-error
+            // @ts-expect-error need type fix
             prev[key] = typeof METADATA_DEFAULTS[key as keyof Metadata] === 'boolean'
                 ? TRUETHY_VALUES.includes(val)
                 : typeof METADATA_DEFAULTS[key as keyof Metadata] === 'number'

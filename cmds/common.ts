@@ -1,9 +1,10 @@
 import { join } from 'https://deno.land/std@0.170.0/path/mod.ts'
 import { basename } from 'https://deno.land/std@0.170.0/path/mod.ts'
+
+import { SUPPORTED_LANGUAGES } from '../src/engine/engine.ts'
 import { ParsedCode, serialize } from '../mod.ts'
 
 export const DEFAULT_FILENAME = 'README.md'
-const SUPPORTED_LANGS = ['sh', 'shell', 'bash']
 const DEFAULT_LANG = 'sh'
 
 export function getFilePath (filePath?: string) {
@@ -26,7 +27,7 @@ export async function getAst (filePath: string) {
         const ast = await serialize(fileContent)
         return ast.children.filter((c) => (
             c.type === 'code' &&
-            SUPPORTED_LANGS.includes(c.lang || DEFAULT_LANG)
+            SUPPORTED_LANGUAGES.includes(c.lang || DEFAULT_LANG)
         )) as ParsedCode[]
     } catch (err: unknown) {
         console.error(`Failed parsing ${basename(filePath)}: ${(err as Error).message}`)

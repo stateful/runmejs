@@ -4,13 +4,9 @@ import * as _ from 'https://deno.land/x/lodash@4.17.15-es/lodash.js';
 import * as runCommand from './cmds/run.ts'
 import * as listCommand from './cmds/list.ts'
 import * as printCommand from './cmds/print.ts'
+import * as sessionCommand from './cmds/session.ts'
 
 const RUNME_VERSION = 'v0.0.1'
-
-interface Arguments {
-   help: boolean
-   version: boolean
-}
 
 yargs(Deno.args)
    .version(RUNME_VERSION)
@@ -18,6 +14,7 @@ yargs(Deno.args)
    .command(runCommand)
    .command(listCommand)
    .command(printCommand)
+   .command(sessionCommand)
    .alias('h', 'help')
    .alias('v', 'version')
    .epilogue('Copyright ©️  2023 — Stateful Inc.')
