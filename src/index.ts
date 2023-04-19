@@ -1,61 +1,61 @@
-import { loadWasm, Runme } from './runtime/node.js'
+import path from 'node:path'
+import cp, { ChildProcess } from 'node:child_process'
 
-import './wasm/wasm_exec.js'
+import waitOn from 'wait-on'
+import { exec } from '@actions/exec'
 
-declare var globalThis: any
+import { hasAccess } from './utils.js'
+import { download } from './installer.js'
+import type { RunArgs, GlobalArgs } from './types'
 
-const go = new globalThis.Go()
-let wasm: WebAssembly.WebAssemblyInstantiatedSource
+/**
+ * Run a selected command
+ */
+export async function run (markdownFilePath: string, idOrIds: string | string[], args: RunArgs = {}) {
+  const runmePath = await download(args.version)
+  const absoluteMarkdownPath = path.resolve(process.cwd(), markdownFilePath)
+  const cellIdsToExecute = (Array.isArray(idOrIds) ? idOrIds : [idOrIds])
+    .filter((id) => typeof id === 'string')
 
-async function initWasm () {
-  /**
-   * check if already initiated
-   */
-  if (globalThis.Runme) {
-    return globalThis.Runme as Runme.Serializer['Runme']
+  if (!(await hasAccess(absoluteMarkdownPath))) {
+    throw new Error(`Can't find or don't have access to ${absoluteMarkdownPath}`)
   }
 
-  const wasmBuffer = await loadWasm()
-  if (!wasm) {
-    wasm = await WebAssembly.instantiate(wasmBuffer, go.importObject)
+  if (cellIdsToExecute.length === 0) {
+    throw new Error('Command has no cell ids defined to execute')
   }
 
-  /**
-   * listen on process exit to avoid deadlock
-   */
-  const proc = globalThis.process
-  const initPromise = proc.on && new Promise((resolve) => proc.on('exit', resolve))
-  go.run(wasm.instance)
+  for (const cellId of cellIdsToExecute) {
+    const execArgs = [
+      'run',
+      cellId,
+      `--chdir=${path.dirname(absoluteMarkdownPath)}`,
+      `--filename=${path.basename(absoluteMarkdownPath)}`
+    ]
 
-  /**
-   * in some sitations `globalThis.GetDocument` is undefined and we need to wait for
-   * the deadlock to happen
-   */
-  if (typeof globalThis.Runme === 'undefined') {
-    await initPromise
+    if (typeof args.server === 'string') {
+      execArgs.push(`--server=${args.server}`)
+    }
+    const spawnargs = args.server && (args.server as ChildProcess).spawnargs
+    if (spawnargs && spawnargs.lastIndexOf('--address') > -1) {
+      const serverAddress = spawnargs[spawnargs.lastIndexOf('--address') + 1]
+      execArgs.push(`--server=${serverAddress}`)
+    }
+
+    await exec(runmePath, execArgs)
   }
-
-  const { Runme } = globalThis as Runme.Serializer
-  return Runme
 }
 
 /**
- * Deserializes the file context of a markdown document into an AST abstraction
- * @param content  content of markdown file
- * @returns        AST abstraction
+ * Start Runme server
+ * @param serverAddress address to start server on (@default `localhost:7890`)
+ * @returns ChildProcess instance of server child process
  */
-export async function deserialize (content: string) {
-  const Runme = await initWasm()
-  const { cells } = await Runme.deserialize(content)
-  return cells
-}
-
-/**
- * Serializes an AST abstraction of a markdown document into a string
- * @param content  AST abstraction
- * @returns        markdown content as string
- */
-export async function serialize (cells: readonly Runme.Cell[]) {
-  const Runme = await initWasm()
-  return await Runme.serialize(JSON.stringify({ cells }))
+export async function createServer (serverAddress = 'localhost:7890', args: GlobalArgs = {}) {
+  const runmePath = await download(args.version)
+  const server = cp.spawn(runmePath, ['server', '--address', serverAddress], {
+    detached: true
+  })
+  await waitOn({ resources: [`tcp:${serverAddress}`] })
+  return server
 }

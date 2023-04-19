@@ -106,4 +106,4 @@ dist
 # Runme wasm download dir
 /wasm
 
-deno.lock
+.bin

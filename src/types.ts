@@ -1,44 +1,25 @@
-export declare namespace Runme {
-  export interface MarkdownSection {
-    name?: string
-    content?: string
-    description?: string
-    markdown?: string
-    language?: string
-    lines?: string[]
-    attributes?: Metadata
-  }
+import type { ChildProcess } from "node:child_process"
 
-  export type Notebook = {
-    cells: Cell[]
-  }
+export interface GlobalArgs {
+  /**
+   * Define which Runme version to use
+   */
+  version?: string
+}
 
-  interface CommonCell {
-    metadata?: Metadata
-    languageId: string
-    value: string
-  }
-  interface MarkdownCell extends CommonCell {
-    kind: 1
-  }
-  interface CodeCell extends CommonCell {
-    kind: 2
-  }
-
-  export type Cell = CodeCell | MarkdownCell
-
-  export interface Serializer {
-    Runme: {
-      deserialize: (content: string) => Promise<Notebook>
-      serialize: (content: string) => Promise<string>
-    }
-  }
-
-  export interface Metadata {
-    background?: string
-    interactive?: string
-    closeTerminalOnSuccess?: string
-    mimeType?: string
-    ['runme.dev/name']?: string
-  }
+export interface RunArgs extends GlobalArgs {
+  /**
+   * Print the final command without executing.
+   */
+  dryRun?: boolean
+  /**
+   * Server address to connect runner to
+   * @default process.env.RUNME_SERVER_ADDR
+   */
+  server?: string | ChildProcess
+  /**
+   * Directory for TLS authentication
+   * @default "$HOME/.config/stateful/tls"
+   */
+  tls?: string
 }

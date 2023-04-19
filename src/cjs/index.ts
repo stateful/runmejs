@@ -1,9 +1,9 @@
-exports.deserialize = async function (content: any) {
-  const { deserialize } = await import('../index.js')
-  return deserialize(content)
+exports.run = async function (markdownFilePath: any, idOrIds: any, args: any) {
+  const { run } = await import('../index.js')
+  return run(markdownFilePath, idOrIds, args)
 }
 
-exports.serialize = async function (cells: any) {
-  const { serialize } = await import('../index.js')
-  return serialize(cells)
+exports.createServer = async function (serverAddress: any, args: any) {
+  const { createServer } = await import('../index.js')
+  return createServer(serverAddress, args)
 }
