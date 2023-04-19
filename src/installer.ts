@@ -20,8 +20,9 @@ const streamPipeline = util.promisify(stream.pipeline)
  * @returns file path to downloaded binary
  */
 export async function download (runmeVersion = 'latest') {
-  const targetDir = path.resolve(__dirname, 'bin')
-  const binaryFilePath = path.resolve(targetDir, 'runme')
+  const targetDir = path.resolve(__dirname, '..', '.bin')
+  const isWindows = os.platform() === 'win32'
+  const binaryFilePath = path.resolve(targetDir, `runme${isWindows ? '.exe' : ''}`)
 
   if (await hasAccess(binaryFilePath)) {
     return binaryFilePath
@@ -33,7 +34,7 @@ export async function download (runmeVersion = 'latest') {
   }
 
   const [version, type, target, ext] = [runmeVersion, platform.TYPE.toLocaleLowerCase(), platform.TARGET, platform.EXTENSION]
-  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}${os.type().includes('Windows') ? '.exe' : ''}`
+  const url = `https://download.stateful.com/runme/${version}/runme_${type}_${target}.${ext}`
   const res = await fetch(url)
 
   if (!res.body) {
