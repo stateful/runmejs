@@ -1,6 +1,7 @@
 import path from 'node:path'
 import cp, { ChildProcess } from 'node:child_process'
 
+import getPort from 'get-port'
 import waitOn from 'wait-on'
 import { exec } from '@actions/exec'
 
@@ -51,11 +52,12 @@ export async function run (markdownFilePath: string, idOrIds: string | string[],
  * @param serverAddress address to start server on (@default `localhost:7890`)
  * @returns ChildProcess instance of server child process
  */
-export async function createServer (serverAddress = 'localhost:7890', args: GlobalArgs = {}) {
+export async function createServer (serverAddress?: string, args: GlobalArgs = {}) {
   const runmePath = await download(args.version)
-  const server = cp.spawn(runmePath, ['server', '--address', serverAddress], {
+  const address = serverAddress || `localhost:${await getPort()}`
+  const server = cp.spawn(runmePath, ['server', '--address', address], {
     detached: true
   })
-  await waitOn({ resources: [`tcp:${serverAddress}`] })
+  await waitOn({ resources: [`tcp:${address}`] })
   return server
 }

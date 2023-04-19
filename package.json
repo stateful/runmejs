@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@actions/exec": "^1.1.1",
+    "get-port": "^6.1.2",
     "node-fetch": "^3.3.0",
     "tar-fs": "^2.1.1",
     "wait-on": "^7.0.1"
