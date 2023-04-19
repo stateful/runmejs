@@ -1,24 +1,10 @@
 const assert = require('node:assert')
-const { deserialize, serialize } = require('../../')
-
-async function deserializeTest () {
-    assert.equal(typeof deserialize, 'function')
-    const result = await deserialize('# A Test')
-
-    assert.equal(result.length, 1)
-    assert.equal(result[0].kind, 1)
-    assert.equal(result[0].value, '# A Test')
-    assert.equal(result[0].languageId, '')
-}
-
-function serializeTest () {
-    assert.equal(typeof serialize, 'function')
-}
+const { run, createServer } = require('../../')
 
 ;(async function test () {
     console.log('Running CJS tests...')
-    await deserializeTest()
-    serializeTest()
+    assert.equal(typeof run, 'function')
+    assert.equal(typeof createServer, 'function')
     console.log('CJS tests passed ✅')
 })()
 

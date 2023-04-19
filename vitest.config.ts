@@ -3,11 +3,12 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
     test: {
-        include: ['tests/nodejs/*.test.ts'],
+        include: ['tests/*.test.ts'],
         /**
          * not to ESM ported packages
          */
         exclude: [
+            'tests/cjs',
             'dist', '.idea', '.git', '.cache',
             '**/node_modules/**'
         ],

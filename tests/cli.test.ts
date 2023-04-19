@@ -1,10 +1,12 @@
 import os from 'node:os'
 import fs from 'node:fs/promises'
 import cp from 'node:child_process'
+
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest'
 import fetch from 'node-fetch'
 
-import { runme, download } from '../../src/cli.js'
+import { download } from '../src/installer.js'
+import { runme } from '../src/cli.js'
 
 vi.mock('node:fs/promises', () => ({
   default: {
@@ -20,12 +22,15 @@ vi.mock('node:child_process', () => ({
 vi.mock('node:os', () => ({
   default: {
     type: vi.fn().mockReturnValue('Darwin'),
-    arch: () => 'arm64'
+    arch: () => 'arm64',
+    platform: vi.fn().mockReturnValue('darwin')
   }
 }))
 
 vi.mock('node:stream', () => ({
-  pipeline: (...args: any) => args[args.length - 1]()
+  default: {
+    pipeline: (...args: any) => args[args.length - 1]()
+  }
 }))
 
 vi.mock('node-fetch', () => ({
@@ -50,6 +55,11 @@ describe('CLI', () => {
     await runme()
     expect(cp.spawn).toBeCalledTimes(1)
     expect(vi.mocked(cp.spawn).mock.calls[0][0]).toContain('runme list --help')
+
+    vi.mocked(os.platform).mockReturnValue('win32')
+    await runme()
+    expect(cp.spawn).toBeCalledTimes(2)
+    expect(vi.mocked(cp.spawn).mock.calls[1][0]).toContain('runme.exe list --help')
   })
 
   it('downloads binary from GitHub', async () => {
@@ -61,7 +71,7 @@ describe('CLI', () => {
 
   it('fails if environment is not supported', async () => {
     vi.mocked(os.type).mockReturnValue('foobar')
-    await download()
+    await expect(download()).rejects.toThrow(/Platform not supported/)
     expect(console.log).toBeCalledTimes(1)
     expect(vi.mocked(console.log).mock.calls[0][0])
       .toContain('Platform with type "foobar" and architecture "arm64" is not supported')

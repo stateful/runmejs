@@ -49,7 +49,7 @@ export async function run (markdownFilePath: string, idOrIds: string | string[],
 
 /**
  * Start Runme server
- * @param serverAddress address to start server on (@default `localhost:7890`)
+ * @param serverAddress address to start server on (@default `localhost:<free-port>`)
  * @returns ChildProcess instance of server child process
  */
 export async function createServer (serverAddress?: string, args: GlobalArgs = {}) {
