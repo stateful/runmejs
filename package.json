@@ -3,7 +3,7 @@
   "version": "0.4.4",
   "author": "Christian Bromann <christian@stateful.com>",
   "license": "Apache-2.0",
-  "description": "A JavaScript module to use Runme in Node.js, Deno or browser environments",
+  "description": "A JavaScript module to use Runme in Node.js",
   "homepage": "https://github.com/stateful/runmejs#readme",
   "bin": "./bin/runme.js",
   "type": "module",
