@@ -41,10 +41,7 @@ Run code cells from markdown files:
 ```ts { name="runExample" }
 import { run } from 'runme'
 
-const result = await run(
-  '.examples/example.md',
-  { id: 'helloWorld' }
-)
+const result = await run('.examples/example.md', 'helloWorld')
 console.log(result) // outputs: { exitCode: 0, stdout: 'Hello World\r\n', stderr: '' }
 ```
 
@@ -60,10 +57,10 @@ import { createServer, run } from 'runme'
 const server = await createServer()
 
 // execute `export FOO="bar"` from markdown code cell with id "export"
-await run('.examples/example.md', { id: 'export', server })
+await run('.examples/example.md', 'export', server })
 
 // execute `echo "exported FOO=$FOO"` from markdown code cell with id "print"
-const result = await run('.examples/example.md', { id: 'print', server })
+const result = await run('.examples/example.md', 'print', server })
 console.log(result) // outputs: { exitCode: 0, stdout: 'exported FOO=bar\r\n', stderr: '' }
 ```
 
