@@ -27,7 +27,7 @@ By default this package downloads the [Runme CLI](https://github.com/stateful/ru
 
 ```sh
 RUNME_DOWNLOAD_ON_INSTALL=1 RUNME_VERSION=1.0.0 npm install runme
-npx runme --version
+npx runme --version # prints "runme version 1.0.0 (adae05c5b75351e9fe82acd595ac8086b6abf19b) on 2023-03-28T20:56:21Z"
 ```
 
 ## Usage
