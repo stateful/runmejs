@@ -10,3 +10,5 @@ coverage
 *.json
 .editorconfig
 deno.lock
+.bin
+examples
