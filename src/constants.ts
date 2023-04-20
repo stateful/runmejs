@@ -42,3 +42,8 @@ export const SUPPORTE_PLATFORMS = [
     EXTENSION: 'tar.gz'
   }
 ]
+
+export const SUPPORTED_RUNME_CONFIGFILE_NAMES = [
+  'runmerc.js',
+  'runmerc.json'
+] as const

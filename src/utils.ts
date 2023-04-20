@@ -1,15 +1,11 @@
+import path from 'node:path'
 import fs from 'node:fs/promises'
-import type stream from 'node:stream'
 import { Transform, type TransformCallback } from 'node:stream'
+
+import { SUPPORTED_RUNME_CONFIGFILE_NAMES } from './constants.js'
 
 export async function hasAccess (filePath: string) {
   return fs.access(filePath).then(() => true, () => false)
-}
-
-export function readStream (stream: stream.Writable) {
-  return async () => {
-
-  }
 }
 
 export class RunmeStream extends Transform {
@@ -54,4 +50,44 @@ export class RunmeStream extends Transform {
   toString (encoding?: BufferEncoding) {
     return this.#content.toString(encoding)
   }
+}
+
+async function importConfig (configPath: string) {
+  if (configPath.endsWith('.js')) {
+    return import(configPath)
+  }
+  if (configPath.endsWith('.json')) {
+    const fileContent = await fs.readFile(configPath, 'utf-8')
+    return JSON.parse(fileContent)
+  }
+
+  throw new Error(`Can't load Runme config "${configPath}", file type/format not supported`)
+}
+
+export async function findConfig(dir: string, depth = Infinity, configFileName = '.runmerc.js'): Promise<Record<string, any> | undefined> {
+  if (depth < 0) {
+      return
+  }
+
+  const config = (
+    (await Promise.all(
+      SUPPORTED_RUNME_CONFIGFILE_NAMES.map(
+        (p) => fs.access(path.join(dir, p))
+          .then(() => importConfig(p))
+          .catch((e) => false)
+        )
+      )
+    ).filter(Boolean)[0]
+  ) as Record<string, any> | undefined
+
+  if (config) {
+    return config
+  }
+
+  const nextDir = path.dirname(dir)
+  if (nextDir === dir) {
+    return
+  }
+
+  return findConfig(nextDir, depth - 1)
 }

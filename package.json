@@ -39,7 +39,7 @@
     "release": "release-it --github.release --ci --npm.skipChecks --no-git.requireCleanWorkingDir",
     "test": "run-s test:*",
     "test:nodejs": "vitest --config ./vitest.config.ts",
-    "test:cjs": "ts-node tests/cjs/cjs.test.ts",
+    "test:cjs": "cd tests/cjs && ts-node ./cjs.test.ts",
     "watch": "npm run compile -- --watch"
   },
   "devDependencies": {
