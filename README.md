@@ -34,10 +34,11 @@ Run code cells from markdown files:
 ```ts { name="runExample" }
 import { run } from 'runme'
 
-await run(
-  './README.md',
-  { id: 'runExample' }
+const result = await run(
+  '.examples/example.md',
+  { id: 'helloWorld' }
 )
+console.log(result) // outputs: { exitCode: 0, stdout: 'Hello World\r\n', stderr: '' }
 ```
 
 ### `server`
@@ -47,11 +48,14 @@ Start a Runme execution session:
 ```ts
 import { createServer, run } from 'runme'
 
-const server = await createServer('localhost:1234')
-await run(
-  './README.md',
-  { id: 'runExample', server }
-)
+const server = await createServer()
+
+// execute `export FOO="bar"` from markdown code cell with id "export"
+await run('.examples/example.md', { id: 'export', server })
+
+// execute `echo "exported FOO=$FOO"` from markdown code cell with id "print"
+const result = await run('.examples/example.md', { id: 'print', server })
+console.log(result) // outputs: { exitCode: 0, stdout: 'exported FOO=bar\r\n', stderr: '' }
 ```
 
 ---

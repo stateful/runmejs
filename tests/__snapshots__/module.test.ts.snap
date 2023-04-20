@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`createServer 1`] = `
+[
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "",
+  },
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "exported FOO=bar
+",
+  },
+]
+`;
+
+exports[`run 1`] = `
+{
+  "exitCode": 0,
+  "stderr": "",
+  "stdout": "Hello World
+",
+}
+`;
+
+exports[`run 2`] = `
+{
+  "exitCode": 1,
+  "stderr": "",
+  "stdout": "failed to run command \\"fail\\": exit code: 1
+",
+}
+`;
+
+exports[`runParallel 1`] = `
+[
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "Hello World
+",
+  },
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "",
+  },
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "exported FOO=
+",
+  },
+]
+`;
+
+exports[`runSeries 1`] = `
+[
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "Hello World
+",
+  },
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "",
+  },
+  {
+    "exitCode": 0,
+    "stderr": "",
+    "stdout": "exported FOO=
+",
+  },
+]
+`;

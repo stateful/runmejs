@@ -28,6 +28,7 @@ vi.mock('node:os', () => ({
 }))
 
 vi.mock('node:stream', () => ({
+  Transform: class {},
   default: {
     pipeline: (...args: any) => args[args.length - 1]()
   }

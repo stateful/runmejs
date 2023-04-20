@@ -1,4 +1,5 @@
-import type { ChildProcess } from "node:child_process"
+import type { ChildProcess } from 'node:child_process'
+import { ExecOptions } from '@actions/exec'
 
 export interface GlobalArgs {
   /**
@@ -7,7 +8,7 @@ export interface GlobalArgs {
   version?: string
 }
 
-export interface RunArgs extends GlobalArgs {
+export interface RunArgs extends GlobalArgs, ExecOptions {
   /**
    * Print the final command without executing.
    */
@@ -22,4 +23,11 @@ export interface RunArgs extends GlobalArgs {
    * @default "$HOME/.config/stateful/tls"
    */
   tls?: string
+}
+
+
+export interface RunmeResult {
+  exitCode: number
+  stdout: string
+  stderr: string
 }

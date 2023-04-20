@@ -1,11 +1,27 @@
 import { test, expect } from 'vitest'
 
-import { run, createServer } from '../src/index.js'
+import { run, runSeries, runParallel, createServer } from '../src/index.js'
 
 test('run', async () => {
-  // expect(typeof run).toBe('fu')
+  expect(await run('./examples/example.md', 'helloWorld'))
+    .toMatchSnapshot()
+  expect(await run('./examples/example.md', 'fail', { ignoreReturnCode: true }))
+    .toMatchSnapshot()
+})
+
+test('runSeries', async () => {
+  expect(await runSeries('./examples/example.md', ['helloWorld', 'export', 'print']))
+    .toMatchSnapshot()
+})
+
+test('runParallel', async () => {
+  expect(await runParallel('./examples/example.md', ['helloWorld', 'export', 'print']))
+    .toMatchSnapshot()
 })
 
 test('createServer', async () => {
-  // expect(await serialize(AST)).toBe(MARKDOWN)
+  const server = await createServer()
+  expect(await runSeries('./examples/example.md', ['export', 'print'], { server }))
+    .toMatchSnapshot()
+  server.kill()
 })
