@@ -1,5 +1,6 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import cp, { type SpawnOptions } from 'node:child_process'
 import { Transform, type TransformCallback } from 'node:stream'
 
 import { SUPPORTED_RUNME_CONFIGFILE_NAMES } from './constants.js'
@@ -90,4 +91,13 @@ export async function findConfig(dir: string, depth = Infinity, configFileName =
   }
 
   return findConfig(nextDir, depth - 1)
+}
+
+export function asyncSpawn (command: string, args: SpawnOptions) {
+  let p = cp.spawn(command, args);
+  return new Promise((resolve) => {
+    p.stdout?.on("data", (x) => process.stdout.write(x.toString()))
+    p.stderr?.on("data", (x) => process.stderr.write(x.toString()))
+    p.on("exit", (code) => resolve(code))
+  })
 }
