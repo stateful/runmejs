@@ -41,7 +41,9 @@ const result = await run(
 console.log(result) // outputs: { exitCode: 0, stdout: 'Hello World\r\n', stderr: '' }
 ```
 
-### `server`
+Similar you can run `runSeries` and `runParallel` if you like to run multiple cells.
+
+### `createServer`
 
 Start a Runme execution session:
 
