@@ -23,6 +23,13 @@ npm i -g runme
 runme list
 ```
 
+By default this package downloads the [Runme CLI](https://github.com/stateful/runme) when the interface is used for the first time. You can download it after running `npm install` by setting the `RUNME_DOWNLOAD_ON_INSTALL` environment flag. You can also modify the Runme version that is being installed by setting `RUNME_VERSION`, e.g.:
+
+```sh
+RUNME_DOWNLOAD_ON_INSTALL=1 RUNME_VERSION=1.0.0 npm install runme
+npx runme --version
+```
+
 ## Usage
 
 The module exposes the following methods:
