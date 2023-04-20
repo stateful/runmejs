@@ -2,7 +2,7 @@
 
 > A JavaScript module to use [Runme](https://runme.dev) in Node.js.
 
-_Runme.js_ contains the the [Runme CLI](https://github.com/stateful/runme) and allows to access its functionality through a simple JavaScript interface. The CLI binary is downloaded and cached when the interface is first being used.
+*Runme.js* contains the [Runme CLI](https://github.com/stateful/runme) and allows to access its functionality through a simple JavaScript interface. The CLI binary is downloaded and cached when the interface is first being used.
 
 ## Install
 
@@ -57,10 +57,10 @@ import { createServer, run } from 'runme'
 const server = await createServer()
 
 // execute `export FOO="bar"` from markdown code cell with id "export"
-await run('.examples/example.md', 'export', server })
+await run('.examples/example.md', 'export', server)
 
 // execute `echo "exported FOO=$FOO"` from markdown code cell with id "print"
-const result = await run('.examples/example.md', 'print', server })
+const result = await run('.examples/example.md', 'print', server)
 console.log(result) // outputs: { exitCode: 0, stdout: 'exported FOO=bar\r\n', stderr: '' }
 ```
 
