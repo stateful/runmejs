@@ -17,6 +17,11 @@ export async function runme () {
 }
 
 /**
+ * fetch all commands
+ */
+const commands = await findAllCommand()
+
+/**
  * run new Runme CLI (experimental)
  */
 export async function runme2 () {
@@ -27,7 +32,6 @@ export async function runme2 () {
 
   // ToDo(Christian): use yargs
   const runParallel = flags.includes('--parallel') || flags.includes('-p')
-  const commands = await findAllCommand()
 
   /**
    * mimick list command

@@ -5,7 +5,7 @@ import getPort from 'get-port'
 import waitOn from 'wait-on'
 import { exec } from '@actions/exec'
 
-import { hasAccess, findConfig, RunmeStream } from './utils.js'
+import { hasAccess, RunmeStream } from './utils.js'
 import { download } from './installer.js'
 import type { RunArgs, GlobalArgs, RunmeResult } from './types'
 
@@ -16,9 +16,7 @@ import type { RunArgs, GlobalArgs, RunmeResult } from './types'
  * @param {RunArgs}  args              execution arguments
  * @returns {RunmeResult[]}
  */
-export async function run (markdownFilePath: string, id: string, runArgs: RunArgs = {}): Promise<RunmeResult> {
-  const configFile = (await findConfig(process.cwd())) || {} as RunArgs
-  const args = { ...configFile, ...runArgs }
+export async function run (markdownFilePath: string, id: string, args: RunArgs = {}): Promise<RunmeResult> {
   const runmePath = await download(args.version)
   const absoluteMarkdownPath = path.resolve(process.cwd(), markdownFilePath)
 

@@ -59,55 +59,6 @@ export class RunmeStream extends Transform {
   }
 }
 
-async function importConfig (configPath: string) {
-  if (configPath.endsWith('.js')) {
-    return import(configPath)
-  }
-  if (configPath.endsWith('.json')) {
-    const fileContent = await fs.readFile(configPath, 'utf-8')
-    return JSON.parse(fileContent)
-  }
-
-  throw new Error(`Can't load Runme config "${configPath}", file type/format not supported`)
-}
-
-export async function findConfig(dir: string, depth = Infinity, configFileName = '.runmerc.js'): Promise<Record<string, any> | undefined> {
-  if (depth < 0) {
-      return
-  }
-
-  const config = (
-    (await Promise.all(
-      SUPPORTED_RUNME_CONFIGFILE_NAMES.map(
-        (p) => fs.access(path.join(dir, p))
-          .then(() => importConfig(p))
-          .catch((e) => false)
-        )
-      )
-    ).filter(Boolean)[0]
-  ) as Record<string, any> | undefined
-
-  if (config) {
-    return config
-  }
-
-  const nextDir = path.dirname(dir)
-  if (nextDir === dir) {
-    return
-  }
-
-  return findConfig(nextDir, depth - 1)
-}
-
-export function asyncSpawn (command: string, args: SpawnOptions) {
-  let p = cp.spawn(command, args);
-  return new Promise((resolve) => {
-    p.stdout?.on("data", (x) => process.stdout.write(x.toString()))
-    p.stderr?.on("data", (x) => process.stderr.write(x.toString()))
-    p.on("exit", (code) => resolve(code))
-  })
-}
-
 export async function findAllCommand () {
   const cwd = process.cwd()
   const findCmd = `find ${cwd} -type f -name "*.md" -not -path '**/node_modules/**'`
@@ -116,7 +67,10 @@ export async function findAllCommand () {
   return stdout
     .split('\n')
     .filter(Boolean)
-    .map((l) => l.split(':'))
+    .map((l) => {
+      const c = l.split(':')
+      return [c[0], c.slice(1).join(':')]
+    })
     .map(([file, frontmatter]) => [
       file,
       frontmatter.match(/name=([^\s]+)/)![1]
