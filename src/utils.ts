@@ -1,9 +1,15 @@
 import path from 'node:path'
+import util from 'node:util'
 import fs from 'node:fs/promises'
 import cp, { type SpawnOptions } from 'node:child_process'
 import { Transform, type TransformCallback } from 'node:stream'
 
+// @ts-expect-error create types for interfaces you use
+import parser from '@gerhobbelt/gitignore-parser'
+
 import { SUPPORTED_RUNME_CONFIGFILE_NAMES } from './constants.js'
+
+const gitignore = parser.compile((await fs.readFile('.gitignore', 'utf8')).toString())
 
 export async function hasAccess (filePath: string) {
   return fs.access(filePath).then(() => true, () => false)
@@ -100,4 +106,20 @@ export function asyncSpawn (command: string, args: SpawnOptions) {
     p.stderr?.on("data", (x) => process.stderr.write(x.toString()))
     p.on("exit", (code) => resolve(code))
   })
+}
+
+export async function findAllCommand () {
+  const cwd = process.cwd()
+  const findCmd = `find ${cwd} -type f -name "*.md" -not -path '**/node_modules/**'`
+  const grepCmd = `grep "sh { name=" $(${findCmd})`
+  const { stdout } = await util.promisify(cp.exec)(grepCmd)
+  return stdout
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => l.split(':'))
+    .map(([file, frontmatter]) => [
+      file,
+      frontmatter.match(/name=([^\s]+)/)![1]
+    ])
+    .filter(([file]) => gitignore.accepts(file))
 }

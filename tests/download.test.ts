@@ -11,7 +11,8 @@ import { runme } from '../src/cli.js'
 vi.mock('node:fs/promises', () => ({
   default: {
     access: vi.fn().mockResolvedValue(true),
-    mkdir: vi.fn()
+    mkdir: vi.fn(),
+    readFile: vi.fn().mockResolvedValue('')
   }
 }))
 

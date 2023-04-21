@@ -19,7 +19,7 @@ vi.mock('node:os', () => ({
 
 describe('RunmeJS CLI', () => {
   it('supports defauls from config file', async () => {
-    process.argv = []
+    process.argv = ['nodepath', 'binPath', 'run', '--chdir=./examples', '--filename=example.md']
     await runme()
     expect(
       vi.mocked(cp.spawn).mock.calls[0][0]

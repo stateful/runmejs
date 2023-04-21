@@ -1,6 +1,7 @@
 import cp, { type SpawnOptions } from 'node:child_process'
 
-import { findConfig, asyncSpawn } from './utils.js'
+import { findAllCommand } from './utils.js'
+import { run } from './index.js'
 import { download } from './installer.js'
 
 const CLI_COMMANDS = ['completion', 'fmt', 'help', 'list', 'print', 'run', 'tui']
@@ -10,34 +11,46 @@ const CLI_COMMANDS = ['completion', 'fmt', 'help', 'list', 'print', 'run', 'tui'
  * @returns instance of spawned child process instance
  */
 export async function runme () {
-  const spawnOpts: SpawnOptions = { stdio: 'inherit', shell: true, env: process.env }
   const binaryPath = await download()
-  const configFile: Record<string, unknown> = (await findConfig(process.cwd())) || {}
-  const params = [
-    ...Object.entries(configFile).map(([key, val]) => `--${key}=${val}`),
-    ...process.argv.slice(2)
-  ]
+  const command = `${binaryPath} ${process.argv.slice(2).join(' ')}`
+  return cp.spawn(command, { stdio: 'inherit', shell: true, env: process.env })
+}
+
+/**
+ * run new Runme CLI (experimental)
+ */
+export async function runme2 () {
+  const spawnOpts: SpawnOptions = { stdio: 'inherit', shell: true, env: process.env }
+  const params = process.argv.slice(2)
+  const flags = params.filter((p) => p.startsWith('-'))
+  const ids = params.filter((p) => !p.startsWith('-'))
+
+  // ToDo(Christian): use yargs
+  const runParallel = flags.includes('--parallel') || flags.includes('-p')
+  const commands = await findAllCommand()
 
   /**
-   * make run default argument
+   * mimick list command
    */
-  if (!CLI_COMMANDS.includes(params[0])) {
-    params.unshift('run')
+  if (ids.length === 1 && (ids[0] === 'list' || ids[0] === 'ls')) {
+    return console.table(commands.map(([file, cmd]) => [file.replace(process.cwd(), ''), cmd]))
   }
 
-  /**
-   * check if more than one markdown cell id was provided
-   */
-  const paramArgs = params.filter((p) => !p.startsWith('--'))
-  const flags = params.filter((p) => p.startsWith('--'))
-  if (paramArgs.includes('run') && paramArgs.length > 2) {
-    const ids = paramArgs.filter((p) => p !== 'run')
-    for (const id of ids) {
-      await asyncSpawn(`${binaryPath} run ${id} ${flags.join(' ')}`, spawnOpts)
-    }
-    return
+  if (runParallel) {
+    return Promise.all(ids.map((id) => runById(id, commands)))
   }
 
-  const command = `${binaryPath} ${params.join(' ')}`
-  return cp.spawn(command, spawnOpts)
+  for (const id of ids) {
+    await runById(id, commands)
+  }
+}
+
+function runById (id: string, commands: string[][]) {
+  const [file] = commands.find(([, cmdId]) => cmdId === id) || []
+
+  if (!file) {
+    throw new Error(`Runme cell with id "${id}" not found`)
+  }
+
+  return run(file, id)
 }
