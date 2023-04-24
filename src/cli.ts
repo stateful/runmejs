@@ -17,15 +17,10 @@ export async function runme () {
 }
 
 /**
- * fetch all commands
- */
-const commands = await findAllCommand()
-
-/**
  * run new Runme CLI (experimental)
  */
 export async function runme2 () {
-  const spawnOpts: SpawnOptions = { stdio: 'inherit', shell: true, env: process.env }
+  const commands = await findAllCommand()
   const params = process.argv.slice(2)
   const flags = params.filter((p) => p.startsWith('-'))
   const ids = params.filter((p) => !p.startsWith('-'))
@@ -49,12 +44,19 @@ export async function runme2 () {
   }
 }
 
-function runById (id: string, commands: string[][]) {
+async function runById (id: string, commands: string[][]) {
   const [file] = commands.find(([, cmdId]) => cmdId === id) || []
 
   if (!file) {
     throw new Error(`Runme cell with id "${id}" not found`)
   }
 
-  return run(file, id)
+  console.log(`🏃 Run "${id}" from ${file.replace(process.cwd(), '')}`)
+  const result = await run(file, id)
+  const resultMessage = result.exitCode === 0
+    ? `✅ Command "${id}" succeeded!\n`
+    : `🚨 Failed: "${result.stdout || result.stderr || `Program failed with exit code ${result.exitCode}`}"\n`
+  console.log(resultMessage)
+
+  return result
 }
