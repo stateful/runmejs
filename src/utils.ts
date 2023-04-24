@@ -7,9 +7,24 @@ import { Transform, type TransformCallback } from 'node:stream'
 // @ts-expect-error create types for interfaces you use
 import parser from '@gerhobbelt/gitignore-parser'
 
-import { SUPPORTED_RUNME_CONFIGFILE_NAMES } from './constants.js'
+let cwd = process.cwd()
+let gitIgnoreContent = ''
+while (true) {
+    if (cwd === path.sep) {
+        break
+    }
 
-const gitignore = parser.compile((await fs.readFile('.gitignore', 'utf8')).toString())
+    const gitIgnorePath = path.join(cwd, '.gitignore')
+    const gitIgnoreExists = await fs.access(gitIgnorePath).then(() => true, () => false)
+    if (gitIgnoreExists) {
+        gitIgnoreContent = (await fs.readFile(gitIgnorePath, 'utf8')).toString()
+        break
+    }
+
+    cwd = path.dirname(cwd)
+}
+
+const gitignore = parser.compile(gitIgnoreContent)
 
 export async function hasAccess (filePath: string) {
   return fs.access(filePath).then(() => true, () => false)
