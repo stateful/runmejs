@@ -13,7 +13,8 @@ const CLI_COMMANDS = ['completion', 'fmt', 'help', 'list', 'print', 'run', 'tui'
 export async function runme () {
   const binaryPath = await download()
   const command = `${binaryPath} ${process.argv.slice(2).join(' ')}`
-  return cp.spawn(command, { stdio: 'inherit', shell: true, env: process.env })
+  const p = cp.spawn(command, { stdio: 'inherit', shell: true, env: process.env })
+  return p.on('exit', (code) => process.exit(code ?? undefined))
 }
 
 /**

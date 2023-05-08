@@ -5,7 +5,7 @@ import { runme } from '../src/cli.js'
 
 vi.mock('node:child_process', () => ({
   default: {
-    spawn: vi.fn(),
+    spawn: vi.fn().mockReturnValue({ on: vi.fn() }),
     exec: vi.fn()
   }
 }))
@@ -18,7 +18,7 @@ vi.mock('node:os', () => ({
   }
 }))
 
-describe.skip('RunmeJS CLI', () => {
+describe('RunmeJS CLI', () => {
   it('supports defauls from config file', async () => {
     process.argv = ['nodepath', 'binPath', 'run', '--chdir=./examples', '--filename=example.md']
     await runme()
