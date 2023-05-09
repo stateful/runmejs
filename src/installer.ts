@@ -21,11 +21,10 @@ const streamPipeline = util.promisify(stream.pipeline)
  * download runme binary from GitHub
  * @returns file path to downloaded binary
  */
-export async function download(runmeVersion = process.env.RUNME_VERSION || 'latest') {
+export async function download (runmeVersion = process.env.RUNME_VERSION || 'latest') {
   const targetDir = path.resolve(__dirname, '..', '.bin')
   const isWindows = os.platform() === 'win32'
-  const binaryName = 'runme' + isWindows ? '.exe' : ''
-  const binaryFilePath = path.resolve(targetDir, binaryName)
+  const binaryFilePath = path.resolve(targetDir, `runme${isWindows ? '.exe' : ''}`)
 
   if (await hasAccess(binaryFilePath)) {
     return binaryFilePath
