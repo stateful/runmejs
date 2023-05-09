@@ -14,6 +14,13 @@ export const SUPPORTE_PLATFORMS = [
     EXTENSION: 'zip'
   },
   {
+    TYPE: 'Windows_NT',
+    ARCHITECTURE: 'ia32',
+    TARGET: 'arm64',
+    BINARY_NAME: 'runme.exe',
+    EXTENSION: 'zip'
+  },
+  {
     TYPE: 'Linux',
     ARCHITECTURE: 'x64',
     TARGET: 'x86_64',
