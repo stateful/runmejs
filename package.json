@@ -62,9 +62,11 @@
   "dependencies": {
     "@actions/exec": "^1.1.1",
     "@gerhobbelt/gitignore-parser": "^0.2.0-9",
+    "@types/unzipper": "^0.10.6",
     "get-port": "^6.1.2",
     "node-fetch": "^3.3.1",
     "tar-fs": "^2.1.1",
+    "unzipper": "^0.10.11",
     "wait-on": "^7.0.1"
   }
 }
