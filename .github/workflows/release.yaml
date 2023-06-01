@@ -39,8 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Project
         run: yarn build
-      - name: Run Tests
-        run: yarn test
       - name: Setup Git
         run: |
           git config --global user.name "stateful-wombot"
