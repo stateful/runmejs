@@ -73,22 +73,3 @@ export class RunmeStream extends Transform {
     return this.#content.toString(encoding)
   }
 }
-
-export async function findAllCommand () {
-  const cwd = process.cwd()
-  const findCmd = `find ${cwd} -type f -name "*.md" -not -path '**/node_modules/**'`
-  const grepCmd = `grep "sh { name=" $(${findCmd})`
-  const { stdout } = await util.promisify(cp.exec)(grepCmd)
-  return stdout
-    .split('\n')
-    .filter(Boolean)
-    .map((l) => {
-      const c = l.split(':')
-      return [c[0], c.slice(1).join(':')]
-    })
-    .map(([file, frontmatter]) => [
-      file,
-      frontmatter.match(/name=([^\s]+)/)![1]
-    ])
-    .filter(([file]) => gitignore.accepts(file))
-}
