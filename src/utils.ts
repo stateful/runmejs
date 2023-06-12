@@ -56,8 +56,6 @@ export class RunmeStream extends Transform {
   }
 
   write (chunk: any, encoding?: BufferEncoding | TransformCallback, cb?: TransformCallback) {
-    console.log('WRITE', chunk.toString());
-
     const enc: BufferEncoding = typeof encoding === 'string' ? encoding : 'utf8'
     if (!this.#canPropagateChunk(chunk)) {
       return false
