@@ -1,5 +1,4 @@
-import path from 'node:path'
-import cp, { ChildProcess } from 'node:child_process'
+import cp, { type ChildProcess } from 'node:child_process'
 
 import getPort from 'get-port'
 import waitOn from 'wait-on'
@@ -81,7 +80,7 @@ export async function createServer (serverAddress?: string, args: GlobalArgs = {
   })
   await Promise.race([
     waitOn({ resources: [`tcp:${address}`] }),
-    new Promise((_, reject) => server.on('exit', (exitCode) => exitCode && reject(new Error(`failed to start server`))))
+    new Promise((_, reject) => server.on('exit', (exitCode) => exitCode && reject(new Error('failed to start server'))))
   ])
 
   return server

@@ -29,10 +29,16 @@ RUNME_PROJECT="" ./node_modules/runme/.bin/runme run clean compile
 To run the entire test pipeline, call:
 
 ```sh { name=test }
-RUNME_PROJECT="" ./node_modules/runme/.bin/runme run test:unit test:cjs
+RUNME_PROJECT="" ./node_modules/runme/.bin/runme run test:lint test:unit test:cjs
 ```
 
-This will run unit tests via Vitest:
+This will run [Eslint](https://eslint.org/) checks:
+
+```sh { name=test:lint }
+npx eslint src tests
+```
+
+unit tests via [Vitest](https://vitest.dev/):
 
 ```sh { name=test:unit }
 npx vitest --config ./vitest.config.ts

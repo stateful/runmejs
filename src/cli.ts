@@ -1,4 +1,4 @@
-import cp, { type SpawnOptions } from 'node:child_process'
+import cp from 'node:child_process'
 
 import { download } from './installer.js'
 

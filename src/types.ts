@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'node:child_process'
-import { ExecOptions } from '@actions/exec'
+import type { ExecOptions } from '@actions/exec'
 
 export interface GlobalArgs {
   /**
@@ -28,7 +28,6 @@ export interface RunArgs extends GlobalArgs, ExecOptions {
    */
   parallel?: boolean
 }
-
 
 export interface RunmeResult {
   exitCode: number

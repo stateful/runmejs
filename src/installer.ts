@@ -62,7 +62,7 @@ const getPlatformMetadata = () => {
   const type = os.type()
   const architecture = os.arch()
 
-  for (let supportedPlatform of SUPPORTE_PLATFORMS) {
+  for (const supportedPlatform of SUPPORTE_PLATFORMS) {
     if (
       type === supportedPlatform.TYPE &&
       architecture === supportedPlatform.ARCHITECTURE
@@ -73,7 +73,7 @@ const getPlatformMetadata = () => {
 
   console.log(
     `Platform with type "${type}" and architecture "${architecture}" is not supported ` +
-    `by "runme".\nYour system must be one of the following:\n`
+    'by "runme".\nYour system must be one of the following:\n'
   )
   console.table(SUPPORTE_PLATFORMS)
 }
