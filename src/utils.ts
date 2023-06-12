@@ -1,7 +1,5 @@
 import path from 'node:path'
-import util from 'node:util'
 import fs from 'node:fs/promises'
-import cp, { type SpawnOptions } from 'node:child_process'
 import { Transform, type TransformCallback } from 'node:stream'
 
 // @ts-expect-error create types for interfaces you use
@@ -58,6 +56,8 @@ export class RunmeStream extends Transform {
   }
 
   write (chunk: any, encoding?: BufferEncoding | TransformCallback, cb?: TransformCallback) {
+    console.log('WRITE', chunk.toString());
+
     const enc: BufferEncoding = typeof encoding === 'string' ? encoding : 'utf8'
     if (!this.#canPropagateChunk(chunk)) {
       return false
@@ -72,23 +72,4 @@ export class RunmeStream extends Transform {
   toString (encoding?: BufferEncoding) {
     return this.#content.toString(encoding)
   }
-}
-
-export async function findAllCommand () {
-  const cwd = process.cwd()
-  const findCmd = `find ${cwd} -type f -name "*.md" -not -path '**/node_modules/**'`
-  const grepCmd = `grep "sh { name=" $(${findCmd})`
-  const { stdout } = await util.promisify(cp.exec)(grepCmd)
-  return stdout
-    .split('\n')
-    .filter(Boolean)
-    .map((l) => {
-      const c = l.split(':')
-      return [c[0], c.slice(1).join(':')]
-    })
-    .map(([file, frontmatter]) => [
-      file,
-      frontmatter.match(/name=([^\s]+)/)![1]
-    ])
-    .filter(([file]) => gitignore.accepts(file))
 }

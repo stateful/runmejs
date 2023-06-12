@@ -1,7 +1,5 @@
 import cp, { type SpawnOptions } from 'node:child_process'
 
-import { findAllCommand } from './utils.js'
-import { run } from './index.js'
 import { download } from './installer.js'
 
 const CLI_COMMANDS = ['completion', 'fmt', 'help', 'list', 'print', 'run', 'tui']
