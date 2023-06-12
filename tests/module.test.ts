@@ -2,7 +2,7 @@ import { test, expect } from 'vitest'
 
 import { run, createServer } from '../src/index.js'
 
-test.only('run', async () => {
+test('run', async () => {
   expect(await run(['helloWorld']))
     .toMatchSnapshot()
   expect(await run(['fail'], { ignoreReturnCode: true }))
