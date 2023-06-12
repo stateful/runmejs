@@ -1,12 +1,12 @@
 import { test, expect, vi } from 'vitest'
 
-import { run, createServer } from '../src/index.js'
-
 vi.unmock('fs/promises')
 vi.unmock('node:child_process')
 vi.unmock('node:os')
 vi.unmock('node:stream')
 vi.unmock('node-fetch')
+
+import { run, createServer } from '../src/index.js'
 
 test('run', async () => {
   expect(await run(['helloWorld']))
