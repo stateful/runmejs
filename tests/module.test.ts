@@ -1,14 +1,17 @@
-import { test, expect, vi } from 'vitest'
+import { test, expect, vi, beforeAll } from 'vitest'
+import os from 'node:os'
 
-vi.unmock('fs/promises')
-vi.unmock('node:child_process')
-vi.unmock('node:os')
-vi.unmock('node:stream')
-vi.unmock('node-fetch')
+beforeAll(() => {
+  vi.restoreAllMocks()
+  vi.unmock('node:os')
+  vi.unmock('node:fs')
+  vi.unmock('node:child_process')
+  console.log(os.platform());
 
-import { run, createServer } from '../src/index.js'
+})
 
 test('run', async () => {
+  const { run } = await import('../src/index.js')
   expect(await run(['helloWorld']))
     .toMatchSnapshot()
   expect(await run(['fail'], { ignoreReturnCode: true }))
@@ -16,6 +19,7 @@ test('run', async () => {
 })
 
 test('createServer', async () => {
+  const { createServer } = await import('../src/index.js')
   const server = await createServer()
   expect(await run(['export', 'print'], { server }))
     .toMatchSnapshot()
