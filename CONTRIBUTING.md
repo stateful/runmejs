@@ -4,7 +4,15 @@ cwd: ./
 
 # Contributing
 
-This project maintains the following workflows and Tasks.
+This project maintains the following workflows and Tasks. You can start contributing by cloning the code base, either manually or by clicking on:
+
+[![Run with Runme](https://badgen.net/badge/Run%20with/Runme/5B3ADF?icon=https://runme.dev/img/logo.svg)](https://runme.dev/api/runme?repository=https%3A%2F%2Fgithub.com%2Fstateful%2Frunmejs.git&fileToOpen=CONTRIBUTING.md)
+
+Then install it's dependencies via:
+
+```sh { name=install }
+npm ci
+```
 
 ## Workflows
 
