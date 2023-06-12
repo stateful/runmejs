@@ -14,7 +14,6 @@ export default defineConfig({
     ],
     testTimeout: 30 * 1000,
     watch: false,
-    restoreMocks: true,
     coverage: {
       enabled: false
     }

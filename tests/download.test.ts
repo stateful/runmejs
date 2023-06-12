@@ -85,6 +85,7 @@ describe('CLI Download', () => {
 })
 
 afterAll(() => {
+  vi.restoreAllMocks()
   console.log = consoleLog
   console.table = consoleTable
 })

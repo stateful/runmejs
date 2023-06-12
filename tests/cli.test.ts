@@ -1,5 +1,5 @@
 import cp from 'node:child_process'
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect, vi, afterAll } from 'vitest'
 
 import { runme } from '../src/cli.js'
 
@@ -27,4 +27,8 @@ describe('RunmeJS CLI', () => {
         .endsWith('.bin/runme run --chdir=./examples --filename=example.md')
     ).toBe(true)
   })
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
 })
