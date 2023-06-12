@@ -41,15 +41,13 @@ Run code cells from markdown files:
 ```ts { name="runExample" }
 import { run } from 'runme'
 
-const result = await run('.examples/example.md', 'helloWorld')
+const result = await run('helloWorld')
 console.log(result) // outputs: { exitCode: 0, stdout: 'Hello World\r\n', stderr: '' }
 ```
 
-Similar you can run `runSeries` and `runParallel` if you like to run multiple cells.
-
 ### `createServer`
 
-Start a Runme execution session:
+Runme can run various commands in a single shell session that allows you to keep environment variables around. For that you need to start a server as execution engine:
 
 ```ts
 import { createServer, run } from 'runme'
@@ -57,10 +55,10 @@ import { createServer, run } from 'runme'
 const server = await createServer()
 
 // execute `export FOO="bar"` from markdown code cell with id "export"
-await run('.examples/example.md', 'export', server)
+await run('export', server)
 
 // execute `echo "exported FOO=$FOO"` from markdown code cell with id "print"
-const result = await run('.examples/example.md', 'print', server)
+const result = await run('print', server)
 console.log(result) // outputs: { exitCode: 0, stdout: 'exported FOO=bar\r\n', stderr: '' }
 ```
 

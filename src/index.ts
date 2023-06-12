@@ -45,7 +45,14 @@ export async function run (workflows: string[], args: RunArgs = {}): Promise<Run
     ...args,
     outStream,
     errStream,
-    env: { ...process.env, RUNME_PROJECT: process.cwd() }
+    env: {
+      ...process.env,
+      /**
+       * Keep env empty to force Runme to look for the project
+       * root based on the nearest git repository.
+       */
+      RUNME_PROJECT: ''
+    }
   })
 
   return {
