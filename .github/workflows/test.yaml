@@ -12,13 +12,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18.x
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Project
-        run: yarn build
-      - name: Run Tests
-        run: yarn test
+      - name: Build / Test Project
+        uses: stateful/runme-action@v1
+        with:
+          id: |
+            build
+            test

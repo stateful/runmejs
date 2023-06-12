@@ -64,6 +64,12 @@ const result = await run('.examples/example.md', 'print', server)
 console.log(result) // outputs: { exitCode: 0, stdout: 'exported FOO=bar\r\n', stderr: '' }
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information or just click on:
+
+[![Run with Runme](https://badgen.net/badge/Run%20with/Runme/5B3ADF?icon=https://runme.dev/img/logo.svg)](https://runme.dev/api/runme?repository=https%3A%2F%2Fgithub.com%2Fstateful%2Frunmejs.git&fileToOpen=CONTRIBUTING.md)
+
 ---
 
 <p align="center">

@@ -103,6 +103,7 @@
   "include": ["src"],
   "exclude": [
     "dist",
+    "src/cjs/package.json",
     "src/runtime/deno.ts",
     "tests",
     "/*.ts"
