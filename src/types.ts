@@ -23,6 +23,10 @@ export interface RunArgs extends GlobalArgs, ExecOptions {
    * @default "$HOME/.config/stateful/tls"
    */
   tls?: string
+  /**
+   * If set all workflows run in parallel
+   */
+  parallel?: boolean
 }
 
 

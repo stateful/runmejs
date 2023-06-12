@@ -5,36 +5,28 @@ import getPort from 'get-port'
 import waitOn from 'wait-on'
 import { exec } from '@actions/exec'
 
-import { hasAccess, RunmeStream } from './utils.js'
+import { RunmeStream } from './utils.js'
 import { download } from './installer.js'
-import type { RunArgs, GlobalArgs, RunmeResult } from './types'
+import type { RunArgs, GlobalArgs, RunmeResult } from './types.js'
 
 /**
  * Run a selected command
  * @param {string}   markdownFilePath  path to markdown file
- * @param {string}   id                name of cells to run
+ * @param {string}   workflows          name of cells to run
  * @param {RunArgs}  args              execution arguments
  * @returns {RunmeResult[]}
  */
-export async function run (markdownFilePath: string, id: string, args: RunArgs = {}): Promise<RunmeResult> {
+export async function run (workflows: string[], args: RunArgs = {}): Promise<RunmeResult> {
   const runmePath = await download(args.version)
-  const absoluteMarkdownPath = path.resolve(process.cwd(), markdownFilePath)
 
-  if (typeof id !== 'string') {
-    throw new Error('Command has no cell id defined to execute')
+  if (!Array.isArray(workflows)) {
+    throw new Error(`"run" command requires an array of workflows to run but found: ${workflows}`)
   }
 
-  if (!(await hasAccess(absoluteMarkdownPath))) {
-    throw new Error(`Can't find or don't have access to ${absoluteMarkdownPath}`)
+  const execArgs = ['run']
+  if (args.parallel) {
+    execArgs.push('-p')
   }
-
-  const execArgs = [
-    'run',
-    id,
-    `--chdir=${path.dirname(absoluteMarkdownPath)}`,
-    `--filename=${path.basename(absoluteMarkdownPath)}`
-  ]
-
   if (typeof args.server === 'string') {
     execArgs.push(`--server=${args.server}`)
   }
@@ -43,6 +35,7 @@ export async function run (markdownFilePath: string, id: string, args: RunArgs =
     const serverAddress = spawnargs[spawnargs.lastIndexOf('--address') + 1]
     execArgs.push(`--server=${serverAddress}`)
   }
+  execArgs.push(...workflows)
 
   const outStream = new RunmeStream()
   outStream.pipe(args.outStream || process.stdout).pipe
@@ -51,7 +44,8 @@ export async function run (markdownFilePath: string, id: string, args: RunArgs =
   const exitCode = await exec(runmePath, execArgs, {
     ...args,
     outStream,
-    errStream
+    errStream,
+    env: { ...process.env, RUNME_PROJECT: process.cwd() }
   })
 
   return {
@@ -59,32 +53,6 @@ export async function run (markdownFilePath: string, id: string, args: RunArgs =
     stdout: outStream.toString(),
     stderr: errStream.toString()
   }
-}
-
-/**
- * Run set of markdown cells in series
- * @param {string}   markdownFilePath  path to markdown file
- * @param {string[]} ids               name of cells to run
- * @param {RunArgs}  args               execution arguments
- * @returns {RunmeResult[]}
- */
-export async function runSeries (markdownFilePath: string, ids: string[], args: RunArgs = {}): Promise<RunmeResult[]> {
-  const result: RunmeResult[] = []
-  for (const id of ids) {
-    result.push(await run(markdownFilePath, id, args))
-  }
-  return result
-}
-
-/**
- * Run set of markdown cells in parallel
- * @param {string}   markdownFilePath  path to markdown file
- * @param {string[]} ids               name of cells to run
- * @param {RunArgs}  args               execution arguments
- * @returns {RunmeResult[]}
- */
-export async function runParallel (markdownFilePath: string, ids: string[], args: RunArgs = {}): Promise<RunmeResult[]> {
-  return Promise.all(ids.map((id) => run(markdownFilePath, id, args)))
 }
 
 /**

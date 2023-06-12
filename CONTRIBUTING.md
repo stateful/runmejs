@@ -21,7 +21,7 @@ npm ci
 To build the project, run:
 
 ```sh { name=build }
-runme run clean compile
+RUNME_PROJECT="" ./node_modules/runme/.bin/runme run clean compile
 ```
 
 ### Test Project
@@ -29,7 +29,7 @@ runme run clean compile
 To run the entire test pipeline, call:
 
 ```sh { name=test }
-runme run test:unit test:cjs
+RUNME_PROJECT="" ./node_modules/runme/.bin/runme run test:unit test:cjs
 ```
 
 This will run unit tests via Vitest:
@@ -41,7 +41,7 @@ npx vitest --config ./vitest.config.ts
 and verifies that the package can be imported in a CJS environment:
 
 ```sh { name=test:cjs cwd=./tests/cjs }
-npx ts-node ./cjs.test.ts",
+npx ts-node ./cjs.test.ts
 ```
 
 ### Watch Files

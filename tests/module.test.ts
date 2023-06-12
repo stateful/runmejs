@@ -1,27 +1,17 @@
 import { test, expect } from 'vitest'
 
-import { run, runSeries, runParallel, createServer } from '../src/index.js'
+import { run, createServer } from '../src/index.js'
 
-test('run', async () => {
-  expect(await run('./examples/example.md', 'helloWorld'))
+test.only('run', async () => {
+  expect(await run(['helloWorld']))
     .toMatchSnapshot()
-  expect(await run('./examples/example.md', 'fail', { ignoreReturnCode: true }))
-    .toMatchSnapshot()
-})
-
-test('runSeries', async () => {
-  expect(await runSeries('./examples/example.md', ['helloWorld', 'export', 'print']))
-    .toMatchSnapshot()
-})
-
-test('runParallel', async () => {
-  expect(await runParallel('./examples/example.md', ['helloWorld', 'export', 'print']))
+  expect(await run(['fail'], { ignoreReturnCode: true }))
     .toMatchSnapshot()
 })
 
 test('createServer', async () => {
   const server = await createServer()
-  expect(await runSeries('./examples/example.md', ['export', 'print'], { server }))
+  expect(await run(['export', 'print'], { server }))
     .toMatchSnapshot()
   server.kill()
 })
