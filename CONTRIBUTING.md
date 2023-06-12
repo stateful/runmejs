@@ -70,6 +70,7 @@ To compile source files via TypeScript, run:
 
 ```sh { name=compile }
 npx tsc -p ./tsconfig.json
+cp ./src/cjs/package.json ./dist/cjs
 ```
 
 ### Post Install Hook

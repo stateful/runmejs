@@ -8,7 +8,7 @@ echo "Hello World"
 exit 1
 ```
 
-```sh { name=export }
+```sh { name=export promptEnv=false }
 export FOO="bar"
 ```
 

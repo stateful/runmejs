@@ -1,19 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`createServer 1`] = `
-[
-  {
-    "exitCode": 0,
-    "stderr": "",
-    "stdout": "",
-  },
-  {
-    "exitCode": 0,
-    "stderr": "",
-    "stdout": "exported FOO=bar
+{
+  "exitCode": 0,
+  "stderr": "",
+  "stdout": " ►  Running task export...
+ ►  ✓ Task export exited with code 0
+ ►  Running task print...
+exported FOO=bar
+ ►  ✓ Task print exited with code 0
 ",
-  },
-]
+}
 `;
 
 exports[`run 1`] = `
