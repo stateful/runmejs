@@ -17,8 +17,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build / Test Project
-        uses: stateful/runme-action@v1
+        uses: stateful/runme-action@v2
         with:
-          id: |
+          workflows: |
             build
             test
