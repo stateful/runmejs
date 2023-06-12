@@ -1,17 +1,17 @@
-import { test, expect, vi, beforeAll } from 'vitest'
-import os from 'node:os'
+import fs from 'node:fs/promises'
+import url from 'node:url'
+import path from 'node:path'
+import { test, expect, beforeAll } from 'vitest'
 
-beforeAll(() => {
-  vi.restoreAllMocks()
-  vi.unmock('node:os')
-  vi.unmock('node:fs')
-  vi.unmock('node:child_process')
-  console.log(os.platform());
+import { run, createServer } from '../src/index.js'
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
+beforeAll(async () => {
+  await fs.rmdir(path.resolve(__dirname, '..', '.bin'))
 })
 
 test('run', async () => {
-  const { run } = await import('../src/index.js')
   expect(await run(['helloWorld']))
     .toMatchSnapshot()
   expect(await run(['fail'], { ignoreReturnCode: true }))
@@ -19,7 +19,6 @@ test('run', async () => {
 })
 
 test('createServer', async () => {
-  const { createServer } = await import('../src/index.js')
   const server = await createServer()
   expect(await run(['export', 'print'], { server }))
     .toMatchSnapshot()
