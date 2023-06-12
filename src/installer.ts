@@ -37,7 +37,7 @@ export async function download (runmeVersion = process.env.RUNME_VERSION || 'lat
 
   const [version, type, target, ext] = [runmeVersion, platform.TYPE.toLocaleLowerCase(), platform.TARGET, platform.EXTENSION]
   const url = `https://download.stateful.com/runme/${version}/runme_${type.replace('_nt', '')}_${target}.${ext}`
-
+  console.log('DOWNLOAD', url)
   const res = await fetch(url)
 
   if (!res.body) {
