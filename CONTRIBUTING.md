@@ -78,11 +78,3 @@ To compile source files via TypeScript, run:
 npx tsc -p ./tsconfig.json
 cp ./src/cjs/package.json ./dist/cjs
 ```
-
-### Post Install Hook
-
-If the user desires to have Runme installed during installation of the package, this hooks downloads Runme for them:
-
-```sh { name=postinstall }
-node ./postInstall.js
-```
