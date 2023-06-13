@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 18.x
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build / Test Project
