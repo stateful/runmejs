@@ -8,9 +8,9 @@ import { run, createServer } from '../src/index.js'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 beforeAll(async () => {
-  await fs.rmdir(
+  await fs.rm(
     path.resolve(__dirname, '..', '.bin'),
-    { recursive: true }
+    { recursive: true, force: true }
   )
 })
 
