@@ -21,7 +21,7 @@ npm ci
 To build the project, run:
 
 ```sh { name=build }
-RUNME_PROJECT="" ./node_modules/runme/.bin/runme run clean compile
+./node_modules/.bin/runme run clean compile
 ```
 
 ### Test Project
@@ -29,7 +29,7 @@ RUNME_PROJECT="" ./node_modules/runme/.bin/runme run clean compile
 To run the entire test pipeline, call:
 
 ```sh { name=test }
-RUNME_PROJECT="" ./node_modules/runme/.bin/runme run test:lint test:unit test:cjs
+./node_modules/.bin/runme run test:lint test:unit test:cjs
 ```
 
 This will run [Eslint](https://eslint.org/) checks:
