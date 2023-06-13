@@ -21,7 +21,7 @@ env:
   NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
