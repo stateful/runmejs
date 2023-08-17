@@ -1,4 +1,6 @@
 #!/usr/bin/env node
-import { runme } from '../dist/cli.js'
 
-runme()
+(async () => {
+  const { runme } = await import('../dist/cli.js')
+  return runme()
+})()
