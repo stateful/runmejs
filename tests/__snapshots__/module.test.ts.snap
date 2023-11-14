@@ -26,7 +26,8 @@ exports[`run 2`] = `
 {
   "exitCode": 1,
   "stderr": "",
-  "stdout": "failed to run command \\"fail\\": exit code: 1
+  "stdout": "exit
+failed to run command \\"fail\\": exit code: 1
 ",
 }
 `;
