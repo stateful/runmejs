@@ -1,5 +1,8 @@
 ---
 cwd: ./
+runme:
+  id: 01HF7GMQ6PE0NNKN60P50JEZ17
+  version: v2.0
 ---
 
 # Contributing
@@ -10,7 +13,7 @@ This project maintains the following workflows and Tasks. You can start contribu
 
 Then install it's dependencies via:
 
-```sh { name=install }
+```sh {"id":"01HF7GMQ6NTPMHCVN4BM9FMCGW","name":"install"}
 npm ci
 ```
 
@@ -20,7 +23,7 @@ npm ci
 
 To build the project, run:
 
-```sh { name=build }
+```sh {"id":"01HF7GMQ6NTPMHCVN4BNVQVTST","name":"build"}
 ./node_modules/.bin/runme run clean compile
 ```
 
@@ -28,25 +31,31 @@ To build the project, run:
 
 To run the entire test pipeline, call:
 
-```sh { name=test }
+```sh {"id":"01HF7GMQ6NTPMHCVN4BS6AB0BM","name":"test"}
 ./node_modules/.bin/runme run test:lint test:unit test:cjs
 ```
 
 This will run [Eslint](https://eslint.org/) checks:
 
-```sh { name=test:lint }
+```sh {"id":"01HF7GMQ6NTPMHCVN4BTYD944N","name":"test:lint"}
 npx eslint src tests
 ```
 
 unit tests via [Vitest](https://vitest.dev/):
 
-```sh { name=test:unit }
+```sh {"id":"01HF7GMQ6NTPMHCVN4BY0W782F","name":"test:unit"}
 npx vitest --config ./vitest.config.ts
+```
+
+Update snapshots used in tests if necesary:
+
+```sh {"name":"test:unit:snapshots"}
+npx vitest --config ./vitest.config.ts -u
 ```
 
 and verifies that the package can be imported in a CJS environment:
 
-```sh { name=test:cjs cwd=./tests/cjs }
+```sh {"cwd":"./tests/cjs","id":"01HF7GMQ6NTPMHCVN4BYGWDAY0","name":"test:cjs"}
 npx ts-node ./cjs.test.ts
 ```
 
@@ -54,7 +63,7 @@ npx ts-node ./cjs.test.ts
 
 To have the source files automatically re-compiled after changing, run:
 
-```sh { name=watch }
+```sh {"id":"01HF7GMQ6NTPMHCVN4C05RFBVF","name":"watch"}
 npx tsc -p ./tsconfig.json --watch
 ```
 
@@ -66,7 +75,7 @@ Workflows consist of the following individual tasks:
 
 Remove build files and other log artifacts:
 
-```sh { name=clean }
+```sh {"id":"01HF7GMQ6NTPMHCVN4C220SZSN","name":"clean"}
 npx rimraf dist coverage ./.bin
 ```
 
@@ -74,7 +83,7 @@ npx rimraf dist coverage ./.bin
 
 To compile source files via TypeScript, run:
 
-```sh { name=compile }
+```sh {"id":"01HF7GMQ6NTPMHCVN4C425DX9M","name":"compile"}
 npx tsc -p ./tsconfig.json
 cp ./src/cjs/package.json ./dist/cjs
 ```
