@@ -1,33 +1,25 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`createServer 1`] = `
-{
-  "exitCode": 0,
-  "stderr": "",
-  "stdout": " ►  Running task export...
- ►  ✓ Task export exited with code 0
- ►  Running task print...
-exported FOO=bar
- ►  ✓ Task print exited with code 0
-",
-}
+"{
+ \\"exitCode\\": 0,
+ \\"stdout\\": \\" ►  Running task export...\\\\n ►  ✓ Task export exited with code 0\\\\n ►  Running task print...\\\\nexported FOO=bar\\\\r\\\\n ►  ✓ Task print exited with code 0\\\\n\\",
+ \\"stderr\\": \\"\\"
+}"
 `;
 
 exports[`run 1`] = `
-{
-  "exitCode": 0,
-  "stderr": "",
-  "stdout": "Hello World
-",
-}
+"{
+ \\"exitCode\\": 0,
+ \\"stdout\\": \\"Hello World\\\\r\\\\n\\",
+ \\"stderr\\": \\"\\"
+}"
 `;
 
 exports[`run 2`] = `
-{
-  "exitCode": 1,
-  "stderr": "",
-  "stdout": "exit
-failed to run command \\"fail\\": exit code: 1
-",
-}
+"{
+ \\"exitCode\\": 1,
+ \\"stdout\\": \\"failed to run command \\\\\\"fail\\\\\\": exit code: 1\\\\n\\",
+ \\"stderr\\": \\"\\"
+}"
 `;
