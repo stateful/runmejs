@@ -1,3 +1,9 @@
+---
+runme:
+  id: 01HP7J575TFZ65WYPQPZGE7STA
+  version: v2.2
+---
+
 # Runme.js [![Test Changes](https://github.com/stateful/runmejs/actions/workflows/test.yaml/badge.svg)](https://github.com/stateful/runmejs/actions/workflows/test.yaml) [![npm version](https://badge.fury.io/js/runme.svg)](https://badge.fury.io/js/runme) [![Join us on Discord](https://img.shields.io/discord/878764303052865537?color=5b39df&label=Join%20us%20on%20Discord)](https://discord.com/invite/BQm8zRCBUY)
 
 > A JavaScript module to use [Runme](https://runme.dev) in Node.js.
@@ -38,7 +44,7 @@ The module exposes the following methods:
 
 Run code cells from markdown files:
 
-```ts { name="runExample" }
+```ts {"name":"runExample"}
 import { run } from 'runme'
 
 const result = await run('helloWorld')

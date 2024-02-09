@@ -2,7 +2,7 @@
 cwd: ./
 runme:
   id: 01HF7GMQ6PE0NNKN60P50JEZ17
-  version: v2.0
+  version: v2.2
 ---
 
 # Contributing
