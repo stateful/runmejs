@@ -19,7 +19,7 @@ exports[`run 1`] = `
 exports[`run 2`] = `
 "{
  \\"exitCode\\": 1,
- \\"stdout\\": \\"failed to run command \\\\\\"fail\\\\\\": exit code: 1\\\\n\\",
+ \\"stdout\\": \\"could not execute command: failed to run command \\\\\\"fail\\\\\\": exit code: 1\\\\n\\",
  \\"stderr\\": \\"\\"
 }"
 `;
