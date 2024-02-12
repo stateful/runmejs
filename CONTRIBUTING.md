@@ -44,7 +44,7 @@ npx eslint src tests
 unit tests via [Vitest](https://vitest.dev/):
 
 ```sh {"id":"01HF7GMQ6NTPMHCVN4BY0W782F","name":"test:unit"}
-npx vitest --config ./vitest.config.ts --retry=3
+npx vitest --config ./vitest.config.ts --retry=3 --threads=false
 ```
 
 Update snapshots used in tests if necesary:
