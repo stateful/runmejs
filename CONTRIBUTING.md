@@ -44,12 +44,12 @@ npx eslint src tests
 unit tests via [Vitest](https://vitest.dev/):
 
 ```sh {"id":"01HF7GMQ6NTPMHCVN4BY0W782F","name":"test:unit"}
-npx vitest --config ./vitest.config.ts
+npx vitest --config ./vitest.config.ts --retry=3
 ```
 
 Update snapshots used in tests if necesary:
 
-```sh {"name":"test:unit:snapshots"}
+```sh {"id":"01HPEYC6NE0WP6X2KTGQAHZVSN","name":"test:unit:snapshots"}
 npx vitest --config ./vitest.config.ts -u
 ```
 
